@@ -1,5 +1,8 @@
 body {
-	background: #eee;
+	background: #11232d;
+	color: #cccccc;
+	font-family: Arial;
+	font-size: 12px;
 }
 
 .local[this] {
@@ -21,4 +24,8 @@ body {
 
 .local[loadingElement] {
 	float: right;
+}
+
+a {
+	color: #ffcc66
 }
