@@ -1,0 +1,9 @@
+.local[this] {
+	display: inline-block;
+	padding: 12px 18px 18px 12px;
+	border-radius: 10%;
+	background: rgba(255, 255, 255, 0.2);
+}
+.local[this] .spinner div {
+	background: white;
+}

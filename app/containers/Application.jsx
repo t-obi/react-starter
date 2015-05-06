@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteHandler } from "react-router";
 import MainMenu from "components/MainMenu";
-
+import Spinner from 'elements/Spinner';
 import styles from "./Application.css";
 
 export default class Application extends React.Component {
@@ -18,6 +18,7 @@ export default class Application extends React.Component {
 			<h1>react-starter</h1>
 			<MainMenu />
 			<RouteHandler />
+			{loading ? <Spinner /> : null}
 		</div>;
 	}
 }

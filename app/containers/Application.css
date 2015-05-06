@@ -10,8 +10,6 @@ body {
 }
 
 .local[this].local[loading] {
-	opacity: 0.2;
-	transition: opacity 600ms;
 }
 
 .local[this] .local[loadingElement] {
