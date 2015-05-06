@@ -16,12 +16,6 @@ export default class Spinner extends React.Component {
 		</div>;
 	}
 }
-Spinner.presets = {
-	'wandering-cubes': {
-		width: 16,
-		height: 16		
-	}
-};
 Spinner.defaultProps = {
 	preset: 'wandering-cubes'
 };
