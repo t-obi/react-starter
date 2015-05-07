@@ -36,6 +36,9 @@ npm install
 ## Installation via Vagrant
 
 Install [vagrant](https://vagrantup.com)
+Add precise64 box:
+
+	vagrant box add precise64 http://files.vagrantup.com/precise64.box
 
 ``` text
 vagrant up
