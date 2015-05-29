@@ -1,11 +1,12 @@
 import React from "react";
 import { RouteHandler } from "react-router";
 import MainMenu from "components/MainMenu";
-import Spinner from 'elements/Spinner';
 import styles from "./Application.css";
 
+import CameraDemo from "sparkles/CameraDemo";
+
 export default class Application extends React.Component {
-	static getProps(stores, params) {
+	static getProps(stores/*, params*/) {
 		var transition = stores.Router.getItem("transition");
 		return {
 			loading: !!transition
@@ -15,10 +16,10 @@ export default class Application extends React.Component {
 		var { loading } = this.props;
 		return <div className={styles.this + (loading ? " " + styles.loading : "")}>
 			<div className={styles.loadingElement}>loading...</div>
+			<CameraDemo />
 			<h1>react-starter</h1>
 			<MainMenu />
 			<RouteHandler />
-			{loading ? <Spinner /> : null}
 		</div>;
 	}
 }
@@ -26,3 +27,7 @@ export default class Application extends React.Component {
 Application.contextTypes = {
 	stores: React.PropTypes.object
 };
+Application.propTypes = {
+	loading: React.PropTypes.bool
+};
+

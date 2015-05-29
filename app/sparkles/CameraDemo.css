@@ -1,0 +1,10 @@
+.local[this] select, .local[this] label {
+	margin-left: 5px;
+}
+.local[this] label [type=checkbox] {
+	position: relative;
+	top: 2px;
+}
+.local[error] {
+	color: red;
+}
