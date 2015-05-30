@@ -7,10 +7,13 @@ import styles from "./CameraDemo.css";
 window.cameraModes = CameraModes;
 export default class CameraDemo extends React.Component {
 
+
+
 	constructor(props) {
 		super(props);
+		this.cameraConnection = null;
 		this.state = {
-			cameraConnection: null,
+			isConnected: false,
 			error: null,
 			displayedWidth: 320,
 			cameraMode: CameraModes.getMode("label", "VGA"),
@@ -19,14 +22,15 @@ export default class CameraDemo extends React.Component {
 	}
 
 	startCamera() {
-		if (this.state.cameraConnection) {
+		if (this.state.isConnected) {
 			this.stopCamera();
 		}
 		var {width, height} = this.state.cameraMode;
-		var cameraConnection = new CameraConnection(width, height);
-		cameraConnection.start()
+		this.cameraConnection = new CameraConnection(width, height);
+		this.cameraConnection.start()
 		.then(() => {
-			var state = {cameraConnection};
+			var state = {};
+			state.isConnected = true;
 			state.error = null;
 			this.setState(state);
 			this.measureHeight();
@@ -37,17 +41,17 @@ export default class CameraDemo extends React.Component {
 	}
 	
 	stopCamera() {
-		var {cameraConnection} = this.state;
-		if (cameraConnection) {
-			cameraConnection.stop();
+		var {isConnected} = this.state;
+		if (isConnected) {
+			this.cameraConnection.stop();
 		}
-		this.setState({cameraConnection: null});
+		this.setState({isConnected: false});
 	}
 
 	render() {
 		var {
 			error, 
-			cameraConnection, 
+			isConnected,
 			cameraMode, 
 			displayedWidth, 
 			measuredHeight, 
@@ -61,7 +65,7 @@ export default class CameraDemo extends React.Component {
 				}
 			},
 			toggleConnect = () => {
-				if (cameraConnection) {
+				if (isConnected) {
 					this.stopCamera();
 				} else{
 					this.startCamera();
@@ -75,11 +79,11 @@ export default class CameraDemo extends React.Component {
 			};
 
 		var cameraViewContainer;
-		if (cameraConnection) {
+		if (isConnected) {
 			cameraViewContainer = (
 				<div>
 					<p>
-						camera resolution: {cameraConnection.width} x {cameraConnection.height},
+						camera resolution: {this.cameraConnection.width} x {this.cameraConnection.height},
 						displayed resolution: {displayedWidth} x {measuredHeight}
 					</p>
 
@@ -93,7 +97,7 @@ export default class CameraDemo extends React.Component {
 					</div>
 
 					<CameraView ref="cameraView"
-						camera={cameraConnection}
+						camera={this.cameraConnection}
 						style={{width: displayedWidth}} />
 				</div>
 			);
@@ -104,7 +108,7 @@ export default class CameraDemo extends React.Component {
 			<p>
 
 				<button onClick={toggleConnect}>
-					{cameraConnection ? "disconnect camera" : "connect camera"}
+					{isConnected ? "disconnect camera" : "connect camera"}
 				</button>
 
 				<CameraModeSelect selectedIndex={CameraModes.getIndex(cameraMode)}
