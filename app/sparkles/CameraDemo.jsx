@@ -73,41 +73,50 @@ export default class CameraDemo extends React.Component {
 				this.setState({autoReconnect: event.target.checked});
 			};
 
-		return <div className={styles.this}>
-			<p>
-				{!cameraConnection && 
-					<button onClick={handleConnect}>connect camera</button>}
-				
-				{cameraConnection && 
-					<button onClick={handleDisconnect}>disconnect camera</button>}
-
-				<CameraModeSelect selectedIndex={CameraModes.getIndex(cameraMode)} onChange={handleMode}/>
-				
-				<label>
-					<input ref="autoReconnect" type="checkbox" checked={autoReconnect} onChange={handleAutoReconnect} /> 
-					Auto-reconnect
-				</label>
-
-				{cameraConnection && 
+		if (!cameraConnection) {
+			return (
+				<div className={styles.this}>
 					<p>
-						camera resolution: {cameraConnection.width} x {cameraConnection.height}, 
+						<button onClick={handleConnect}>connect camera</button>
+
+						<CameraModeSelect selectedIndex={CameraModes.getIndex(cameraMode)} onChange={handleMode}/>
+
+						<label>
+							<input ref="autoReconnect" type="checkbox" checked={autoReconnect} onChange={handleAutoReconnect} />
+							Auto-reconnect
+						</label>
+						<ErrorView error={error}/>
+					</p>
+				</div>
+			);
+		} else {
+			return <div className={styles.this}>
+				<p>
+
+					<button onClick={handleDisconnect}>disconnect camera</button>
+
+					<CameraModeSelect selectedIndex={CameraModes.getIndex(cameraMode)} onChange={handleMode}/>
+
+					<label>
+						<input ref="autoReconnect" type="checkbox" checked={autoReconnect} onChange={handleAutoReconnect} />
+						Auto-reconnect
+					</label>
+
+					<p>
+						camera resolution: {cameraConnection.width} x {cameraConnection.height},
 						displayed resolution: {displayedWidth} x {measuredHeight}
-					</p>}
-				
-				{cameraConnection && 
+					</p>
+
 					<div>
 						<input type="range" value={displayedWidth} min="0" max="1280" style={{width: 1280}} onChange={handleWidth} />
-					</div>}
-				
-				{error && 
-					<div className={styles.error}>
-						<h3>{error.name}</h3>
-						{error.message}
-					</div>}
-			</p>
-			{cameraConnection && 
-				<CameraView ref="cameraView" camera={cameraConnection} style={{width: displayedWidth}} />}
-		</div>;
+					</div>
+					<ErrorView error={error}/>
+				</p>
+				<CameraView ref="cameraView" camera={cameraConnection} style={{width: displayedWidth}} />
+			</div>;
+		}
+
+
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -120,6 +129,20 @@ export default class CameraDemo extends React.Component {
 		var element = React.findDOMNode(this.refs.cameraView);
 		this.setState({measuredHeight: element.offsetHeight});
 	}
+}
 
+class ErrorView extends React.Component {
 
+	render(){
+		if (this.props.error) {
+			return (
+				<div className={styles.error}>
+					<h3>{this.props.error.name}</h3>
+					{this.props.error.message}
+				</div>
+				);
+		} else{
+			return null;
+		}
+	}
 }
