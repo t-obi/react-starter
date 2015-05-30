@@ -74,50 +74,55 @@ export default class CameraDemo extends React.Component {
 				this.setState({autoReconnect: event.target.checked});
 			};
 
-		if (!cameraConnection) {
-			return (
-				<div className={styles.this}>
-					<p>
-						<button onClick={toggleConnect}>connect camera</button>
-
-						<CameraModeSelect selectedIndex={CameraModes.getIndex(cameraMode)} onChange={handleMode}/>
-
-						<label>
-							<input ref="autoReconnect" type="checkbox" checked={autoReconnect} onChange={handleAutoReconnect} />
-							Auto-reconnect
-						</label>
-						<ErrorView error={error}/>
-					</p>
-				</div>
-			);
-		} else {
-			return <div className={styles.this}>
-				<p>
-
-					<button onClick={toggleConnect}>disconnect camera</button>
-
-					<CameraModeSelect selectedIndex={CameraModes.getIndex(cameraMode)} onChange={handleMode}/>
-
-					<label>
-						<input ref="autoReconnect" type="checkbox" checked={autoReconnect} onChange={handleAutoReconnect} />
-						Auto-reconnect
-					</label>
-
+		var cameraViewContainer;
+		if (cameraConnection) {
+			cameraViewContainer = (
+				<div>
 					<p>
 						camera resolution: {cameraConnection.width} x {cameraConnection.height},
 						displayed resolution: {displayedWidth} x {measuredHeight}
 					</p>
 
 					<div>
-						<input type="range" value={displayedWidth} min="0" max="1280" style={{width: 1280}} onChange={handleWidth} />
+						<input type="range"
+							value={displayedWidth}
+							min="0"
+							max="1280"
+							style={{width: 1280}}
+							onChange={handleWidth} />
 					</div>
-					<ErrorView error={error}/>
-				</p>
-				<CameraView ref="cameraView" camera={cameraConnection} style={{width: displayedWidth}} />
-			</div>;
+
+					<CameraView ref="cameraView"
+						camera={cameraConnection}
+						style={{width: displayedWidth}} />
+				</div>
+			);
 		}
 
+		return (
+			<div className={styles.this}>
+			<p>
 
+				<button onClick={toggleConnect}>
+					{cameraConnection ? "disconnect camera" : "connect camera"}
+				</button>
+
+				<CameraModeSelect selectedIndex={CameraModes.getIndex(cameraMode)}
+					onChange={handleMode}/>
+
+				<label>
+					<input ref="autoReconnect"
+						type="checkbox"
+						checked={autoReconnect}
+						onChange={handleAutoReconnect} />
+					Auto-reconnect
+				</label>
+
+				<ErrorView error={error}/>
+			</p>
+			{cameraViewContainer}
+		</div>
+		);
 	}
 
 	componentDidUpdate(prevProps, prevState) {
