@@ -60,11 +60,12 @@ export default class CameraDemo extends React.Component {
 					this.startCamera(); 
 				}
 			},
-			handleDisconnect = () => {
-				this.stopCamera(); 
-			},
-			handleConnect = () => {
-				this.startCamera(); 
+			toggleConnect = () => {
+				if (cameraConnection) {
+					this.stopCamera();
+				} else{
+					this.startCamera();
+				}
 			},
 			handleWidth = (event) => {
 				this.setState({displayedWidth: event.target.value});
@@ -77,7 +78,7 @@ export default class CameraDemo extends React.Component {
 			return (
 				<div className={styles.this}>
 					<p>
-						<button onClick={handleConnect}>connect camera</button>
+						<button onClick={toggleConnect}>connect camera</button>
 
 						<CameraModeSelect selectedIndex={CameraModes.getIndex(cameraMode)} onChange={handleMode}/>
 
@@ -93,7 +94,7 @@ export default class CameraDemo extends React.Component {
 			return <div className={styles.this}>
 				<p>
 
-					<button onClick={handleDisconnect}>disconnect camera</button>
+					<button onClick={toggleConnect}>disconnect camera</button>
 
 					<CameraModeSelect selectedIndex={CameraModes.getIndex(cameraMode)} onChange={handleMode}/>
 
