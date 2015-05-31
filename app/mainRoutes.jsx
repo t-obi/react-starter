@@ -12,6 +12,8 @@ import TodoItemPage from "route-handlers/TodoItemPage";
 import HomePage     from "route-handlers/HomePage";
 import NotFoundPage from "route-handlers/NotFoundPage";
 import ChatPage     from "route-handlers/ChatPage";
+import CameraDemo   from "route-handlers/CameraDemo";
+
 /* eslint-enable */
 
 // polyfill
@@ -29,6 +31,8 @@ module.exports = (
 		</Route>
 		<Route name="home" path="/home" handler={HomePage} />
 		<Route name="chat" path="/chat/:room" handler={ChatPage} />
+		<Route name="camerademo" path="/camerademo" handler={CameraDemo} />
+
 		<DefaultRoute handler={HomePage} />
 		<NotFoundRoute handler={NotFoundPage} />
 	</Route>

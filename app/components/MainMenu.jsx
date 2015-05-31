@@ -13,6 +13,8 @@ export default class MainMenu extends React.Component {
 				<li>Switch to <Link to="some-page">some page</Link>.</li>
 				<li>Open the chat demo: <Link to="chat" params={{room: "home"}}>Chat</Link>.</li>
 				<li>Open the page that shows <Link to="readme">README.md</Link>.</li>
+				<li>Open the <Link to="camerademo">camerademo</Link>.</li>
+
 			</ul>
 		</div>;
 	}

@@ -7,8 +7,6 @@ import styles from "./CameraDemo.css";
 window.cameraModes = CameraModes;
 export default class CameraDemo extends React.Component {
 
-
-
 	constructor(props) {
 		super(props);
 		this.cameraConnection = null;
@@ -19,6 +17,10 @@ export default class CameraDemo extends React.Component {
 			cameraMode: CameraModes.getMode("label", "VGA"),
 			autoReconnect: true
 		};
+	}
+
+	static getProps() {
+		return {};
 	}
 
 	startCamera() {
@@ -36,10 +38,10 @@ export default class CameraDemo extends React.Component {
 			this.measureHeight();
 		})
 		.catch((error) => {
-			this.setState({error});	
+			this.setState({error});
 		});
 	}
-	
+
 	stopCamera() {
 		var {isConnected} = this.state;
 		if (isConnected) {
@@ -50,18 +52,18 @@ export default class CameraDemo extends React.Component {
 
 	render() {
 		var {
-			error, 
+			error,
 			isConnected,
-			cameraMode, 
-			displayedWidth, 
-			measuredHeight, 
+			cameraMode,
+			displayedWidth,
+			measuredHeight,
 			autoReconnect
 		} = this.state;
 
 		var handleMode = (event) => {
 				this.setState({cameraMode: CameraModes.getMode(event.target.selectedIndex) });
 				if (autoReconnect) {
-					this.startCamera(); 
+					this.startCamera();
 				}
 			},
 			toggleConnect = () => {
@@ -138,6 +140,7 @@ export default class CameraDemo extends React.Component {
 	measureHeight() {
 		var element = React.findDOMNode(this.refs.cameraView);
 		this.setState({measuredHeight: element.offsetHeight});
+		console.log("measured height: " + element.offsetHeight);
 	}
 }
 
